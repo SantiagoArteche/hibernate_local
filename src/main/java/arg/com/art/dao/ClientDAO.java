@@ -45,14 +45,16 @@ public class ClientDAO {
 	public boolean update(Clients client, int id) {
 		try {
 			Clients findClient = getById(id);
-			findClient.setEmail(client.getEmail());
-			findClient.setPhone(client.getPhone());
-			findClient.setName(client.getName());
-			findClient.setLastName(client.getLastName());
-			em.getTransaction().begin();
-			em.merge(findClient);
-			em.getTransaction().commit();
-			return true;
+			if(findClient != null) {				
+				findClient.setEmail(client.getEmail());
+				findClient.setPhone(client.getPhone());
+				findClient.setName(client.getName());
+				findClient.setLastName(client.getLastName());
+				em.getTransaction().begin();
+				em.merge(findClient);
+				em.getTransaction().commit();
+				return true;
+			}
 		}catch(Exception ex) {
 			ex.printStackTrace(System.out);
 		}
@@ -62,10 +64,12 @@ public class ClientDAO {
 	public boolean deleteById(int id) {
 		try {
 			Clients findClient = getById(id);
-			em.getTransaction().begin();
-			em.remove(findClient);
-			em.getTransaction().commit();
-			return true;
+			if(findClient != null) {				
+				em.getTransaction().begin();
+				em.remove(findClient);
+				em.getTransaction().commit();
+				return true;
+			}
 		}catch(Exception ex) {
 			ex.printStackTrace(System.out);
 		}
